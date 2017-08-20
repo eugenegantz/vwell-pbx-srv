@@ -1,0 +1,53 @@
+module.exports = [
+	{
+		type: 'controller',
+		method: '*',
+		pattern: '/api_v1/',
+		controller: 'api-v1.js',
+		comments: [
+			"API v1;",
+			"fileSize - масимальный размер файла в байтах (1024 * 1024 * 32 = 32 МБ);",
+			"files - количество файловых полей"
+		],
+		files: {
+			multerMethod: 'any',
+			dest: 'q:/tmp/upload/',
+			limits: {
+				files: 20,
+				fileSize: 33554432
+			}
+		}
+	},
+
+	{
+		type: 'controller',
+		method: '*',
+		pattern: '/api_sprint/',
+		controller: 'api-sprint.js',
+		files: {
+			multerMethod: 'any',
+			dest: 'q:/tmp/upload/',
+			limits: {
+				files: 10,
+				fileSize: 33554432
+			}
+		},
+		comments: [
+			"fileSize - масимальный размер файла в байтах (1024 * 1024 * 32 = 32 МБ);"
+		]
+	},
+
+	{
+		type: 'controller',
+		method: 'post',
+		pattern: '/auth/',
+		controller: 'auth.js'
+	},
+
+	{
+		type: 'controller',
+		method: 'get',
+		pattern: '/store/*',
+		controller: 'store.js'
+	}
+];
