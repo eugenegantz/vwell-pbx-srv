@@ -72,7 +72,7 @@ class API {
 
 		if (args.login) {
 			let query = ''
-				+ ' SELECT agentId'
+				+ ' SELECT userId'
 				+ ' FROM Users'
 				+ ' WHERE '
 				+   ` userId = '${args.login}'`
