@@ -115,9 +115,7 @@ class API {
 		if (!msg)
 			return Promise.reject('arg.msg suppose to be not empty string');
 
-		tel = egUtils.tel.mob.normalize(tel);
-
-		tel = tel.replace(/^\+7/, '8');
+		tel = egUtils.tel.mob.normalize(tel + '').replace(/^\+7/, '8');
 
 		return this._login(req).then(() => {
 			return EgPBXPool.getInstance(pbxCfg).then(pbx => {
@@ -137,8 +135,8 @@ class API {
 	dial(req) {
 		let args = reqUtils.getArgs(req);
 
-		args.from = (args.from || '').replace(/^\+7/, '8');
-		args.to = (args.to || '').replace(/^\+7/, '8');
+		args.from = egUtils.tel.mob.normalize(args.from + '').replace(/^\+7/, '8');
+		args.to = egUtils.tel.mob.normalize(args.to + '').replace(/^\+7/, '8');
 
 		return this._login(req).then(() => {
 			return EgPBXPool
