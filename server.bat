@@ -1,5 +1,6 @@
+TITLE "vwell-pbx-srv"
 :S
 cls
-node index.js
+node index.js --instance-name="vwell-pbx-srv"
 pause
 GOTO :S

@@ -6,7 +6,6 @@ const
 	FabMod          = require('fabula-object-model'),
 	appCfg          = require('./../../config/app-config.js'),
 	pbxCfg          = appCfg.external_services.pbx,
-	EgPBX           = require('eg-pbx'),
 	EgPBXPool       = require('./../pbx/m-pbx-pool.js'),
 	reqUtils        = require('./../utils/req.js');
 

@@ -1,2 +1,2 @@
-*.json
-*.js
+app-config.js
+db-config-awws.js
