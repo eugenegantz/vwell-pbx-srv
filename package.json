@@ -1,0 +1,15 @@
+{
+	"name": "vwell-pbx-srv",
+	"description": "сервер обработки команд для телефонной атс",
+	"author": {
+		"name": "EugeneGantz",
+		"email": "eugengantz@gmail.com"
+	},
+	"main": "./index.js",
+	"version": "1.0.0",
+	"dependencies": {
+		"express": ">=4.14.0",
+		"eg-fab-print-utils": "git+http://guest:verywell@print2.sborka.biz:4917/git/eg/eg-pbx.git#master",
+		"fabula-object-model": "https://github.com/eugenegantz/fabula-object-model.git#0.9.1"
+	}
+}
