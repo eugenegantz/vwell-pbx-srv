@@ -1,4 +1,4 @@
-TITLE "vwell-pbx-srv"
+TITLE vwell-pbx-srv
 :S
 cls
 node index.js --instance-name="vwell-pbx-srv"
