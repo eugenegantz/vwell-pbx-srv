@@ -40,10 +40,10 @@ require('./config/routes.js').forEach(route => {
 		app.post(pattern, Controller);
 
 	} else if ('get' == method) {
-		app.get(app, Controller);
+		app.get(pattern, Controller);
 
 	} else if ('*' == method) {
-		app.all(app, Controller);
+		app.all(pattern, Controller);
 	}
 });
 

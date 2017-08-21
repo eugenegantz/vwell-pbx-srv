@@ -9,7 +9,8 @@
 	"version": "1.0.0",
 	"dependencies": {
 		"express": ">=4.14.0",
-		"eg-fab-print-utils": "git+http://guest:verywell@print2.sborka.biz:4917/git/eg/eg-pbx.git#master",
+		"eg-pbx": "git+http://guest:verywell@print2.sborka.biz:4917/git/eg/eg-pbx.git#master",
+		"eg-utils": "git+http://guest:verywell@print2.sborka.biz:4917/git/eg/eg-utils.git",
 		"fabula-object-model": "https://github.com/eugenegantz/fabula-object-model.git#0.9.1"
 	}
 }

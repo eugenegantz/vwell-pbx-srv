@@ -2,6 +2,7 @@
 
 const
 	modCrypto       = require('crypto'),
+	egUtils         = require('eg-utils'),
 	FabMod          = require('fabula-object-model'),
 	appCfg          = require('./../../config/app-config.js'),
 	pbxCfg          = appCfg.external_services.pbx,
@@ -29,6 +30,9 @@ class API {
 	}
 
 
+	/**
+	 * Авторизация пользователя
+	 * */
 	_login(req) {
 		let fab         = FabMod.getInstance(),
 			db          = fab.getDBInstance(),
@@ -94,21 +98,53 @@ class API {
 
 		if (args.secret != appCfg.secret)
 			return Promise.reject('Ошибка авторизации');
+
+		return Promise.resolve();
 	}
 
 
+	/**
+	 * Отправить SMS
+	 * */
+	gsmSendSMS(req) {
+		let args = reqUtils.getArgs(req),
+			{ tel, msg } = args;
+
+		if (!tel)
+			return Promise.reject('arg.tel suppose to be not empty string');
+
+		if (!msg)
+			return Promise.reject('arg.msg suppose to be not empty string');
+
+		tel = egUtils.tel.mob.normalize(tel);
+
+		tel = tel.replace(/^\+7/, '8');
+
+		return this._login(req).then(() => {
+			return EgPBXPool.getInstance(pbxCfg).then(pbx => {
+				return pbx.gsmSendSMS({
+					msg,
+					tel,
+					spanId: pbxCfg.span_id
+				});
+			});
+		});
+	}
+
+
+	/**
+	 * Позвонить через дозвон из АТС
+	 * */
 	dial(req) {
-		let pbx = new EgPBX(),
-			args = reqUtils.getArgs(req);
+		let args = reqUtils.getArgs(req);
 
-		this._login(req).then(() => {
-			console.log('success');
+		args.from = (args.from || '').replace(/^\+7/, '8');
+		args.to = (args.to || '').replace(/^\+7/, '8');
 
-			return Promise.resolve();
-
+		return this._login(req).then(() => {
 			return EgPBXPool
 				.getInstance(pbxCfg)
-				.then(() => pbx.dial(args));
+				.then(pbx => pbx.dial(args));
 		});
 	}
 
