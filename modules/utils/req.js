@@ -7,6 +7,11 @@ const
 
 module.exports = {
 
+	/**
+	 * Извлечь параметры запроса
+	 * @param {IncomingMessage} req
+	 * @return {Object}
+	 * */
 	getParams(req) {
 		let method = req.method.toLowerCase(),
 			params = 'post' === method ? req.body : req.query;
@@ -31,6 +36,11 @@ module.exports = {
 	},
 
 
+	/**
+	 * Извлечь аргументы из запроса
+	 * @param {IncomingMessage} req
+	 * @return {Object}
+	 * */
 	getArgs(req) {
 		return this.getParams(req).argument || {};
 	},

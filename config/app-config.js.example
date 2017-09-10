@@ -1,40 +1,36 @@
 module.exports = {
 
 	// Порт на котором запускается сервер
-	http_server_port: 4921,
+	http_server_port: 8930,
 
 	// Порт на котором запускается безопасный сервер (SSL)
 	https_server_port: void 0,
+
+	// Порт на котором запускается webSocket сервер
+	ws_server_port: 8931,
 
 
 	// Код доступа для оператора
 	secret: 'cNIUmJrqxfx706cKohtPAEuoOuOGnnuX0j7YPUm4L2Gj0C0taKCagU5KqcSF2DPv',
 
 
+	// Настройка внутренних модулей и API
+	modules: {},
+
+
 	// Внешние исполняемые файлы
-	external_apps: {
-
-		// ImageMagick
-		image_magick: {
-			identify: 'C:/IMagick7/identify.exe',
-			convert: 'C:/IMagick7/convert.exe'
-		}
-
-	},
+	external_apps: {},
 
 
 	// Микросервисы
 	external_services: {
 
-		// сервис печати
-		eg_el_print_srv: {
-			addr: 'http://localhost:8100'
-		},
-
-		// сервер событий
-		eg_fab_event_srv: {
-			addr: 'ws://localhost:8901',
-			listener_id: '5820628495'
+		pbx: {
+			host: '192.168.3.111',
+			port: '5038',
+			span_id: '13',
+			usr: 'admin',
+			pwd: 'password'
 		}
 
 	}

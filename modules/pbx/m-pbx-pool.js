@@ -26,6 +26,8 @@ module.exports = {
 
 		pbx = new EgPBX();
 
+		pbx.debug = 1;
+
 		return pbx
 			.connect({ port, host })
 			.login({ usr, pwd })
