@@ -3,10 +3,12 @@
 const
 	modCrypto       = require('crypto'),
 	modWs           = require('ws'),
+	ajax            = require('eg-node-ajax'),
+	moment          = require('moment'),
 	egUtils         = require('eg-utils'),
 	FabMod          = require('fabula-object-model'),
-	FabUsrMod       = require('./../fab-users/fab-users.js'),
 	appCfg          = require('./../../config/app-config.js'),
+	awwsCfg         = require('./../../config/db-config-awws.js'),
 	pbxCfg          = appCfg.external_services.pbx,
 	EgPBXPool       = require('./../pbx/m-pbx-pool.js'),
 	reqUtils        = require('./../utils/req.js');
@@ -37,65 +39,56 @@ class API {
 
 
 	/**
-	 * Обновить кэш пользователей
-	 * */
-	pvtUpdUsrCache(req) {
-		let fab = FabMod.getInstance(),
-			fabAgents = fab.create('AgentsDataModel'),
-			fabUsers = FabUsrMod.getInstance(),
-			args = reqUtils.getArgs(req);
-
-		if (appCfg.secret && args.secret != appCfg.secret)
-			return Promise.reject('denied');
-
-		return Promise.all([
-			fabUsers.load(),
-			fabAgents.loadWithRef()
-		]);
-	}
-
-
-	/**
 	 * Авторизация пользователя
 	 * @return {Promise}
 	 * */
 	_login(req) {
-		let fab         = FabMod.getInstance(),
-			fabAgents   = fab.create('AgentsDataModel'),
-			fabUsers    = FabUsrMod.getInstance(),
-			dbUtils     = fab.create('dbUtils'),
-			args        = reqUtils.getArgs(req);
+		let dburl       = awwsCfg.dbconfigs[0].faburl.replace(/[\/]$/ig, '') + '/',
+			fab         = FabMod.getInstance(),
+			fabUtils    = fab.create('utils'),
+			args        = reqUtils.getArgs(req),
+			dtNow       = moment();
 
-		if (
-			'agent' === (args.login + '').toLowerCase()
-			&& args.login2
-		) {
-			let agRow = fabAgents.dataRefByLogin2.get(args.login2);
+		let u = {
+			'Agent': '-A',
+			'Client': '-C'
+		};
 
-			if (!agRow)
-				return Promise.reject('Не удалось установить пользователя');
-
-			let dbSha1 = sha1('Agent' + (agRow.AgentID * 57));
-
-			if (args.sha1 != dbSha1)
-				return Promise.reject('Не удалось авторизировать пользователя');
+		if (args.secret) {
+			if (args.secret != appCfg.secret)
+				return Promise.reject('Ошибка авторизации');
 
 			return Promise.resolve();
 		}
 
-		if (args.login) {
-			let usrRow = fabUsers.dataRefByUserId.get(args.login);
+		return new Promise((resolve, reject) => {
+			ajax.req({
+				method: 'GET',
+				decodeFrom: 'win-1251',
+				url: dburl + 'auth?' + fabUtils.awwsBase64.encode(''
+					+ `{`
+					+ ` Src:'main'`
+					+ `, Sql:'Login${u[args.login] || ''}'`
+					+ `, Conf:'well'`
+					+ `, Login:'${args.login}'`
+					+ `, Login2:'${args.login2}'`
+					+ `, Sha1:'${args.sha1}'`
+					+ `, Tm:'${dtNow.format('mm:ss')}'`
+					+ ` }`
+				),
+				callback(err, res) {
+					if (err)
+						return reject(err);
 
-			if (!usrRow)
-				return Promise.reject('Не удалось установить пользователя');
+					res = JSON.parse(res.responseText);
 
-			return Promise.resolve();
-		}
+					if (res.Err)
+						return reject('Ошибка авторизации: ' + res.Err);
 
-		if (args.secret != appCfg.secret)
-			return Promise.reject('Ошибка авторизации');
-
-		return Promise.resolve();
+					resolve(res);
+				}
+			});
+		});
 	}
 
 

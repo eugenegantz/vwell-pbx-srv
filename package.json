@@ -8,7 +8,9 @@
 	"main": "./index.js",
 	"version": "1.0.0",
 	"dependencies": {
+		"body-parser": "^1.18.1",
 		"eg-pbx": "git+http://guest:verywell@print2.sborka.biz:4917/git/eg/eg-pbx.git#master",
+		"eg-node-ajax": "https://github.com/eugenegantz/eg-node-ajax.git#master",
 		"eg-utils": "git+http://guest:verywell@print2.sborka.biz:4917/git/eg/eg-utils.git",
 		"express": ">=4.14.0",
 		"fabula-object-model": "https://github.com/eugenegantz/fabula-object-model.git#0.9.1",
