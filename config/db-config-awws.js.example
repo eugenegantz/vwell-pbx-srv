@@ -2,20 +2,11 @@ module.exports = {
 
 	dbconfigs: [
 		{
-			faburl: 'http://www.fabula.net.ru/',
-			dburl: 'http://www.fabula.net.ru/db?',
+			faburl: 'http://localhost/',
+			dburl: 'http://localhost:9000/db?',
 			dbsrc: 'main',
-			dbname: 'well',
-			dblogdir: 'w:/nodejs/s-print/logs/db/'
-		}
-	],
-
-	dev_dbconfigs: [
-		{
-			dburl: 'http://127.0.0.1:9000/db?',
-			dbsrc: 'main',
-			dbname: 'well.demo',
-			dblogdir: 'w:/nodejs/s-print/logs/db/'
+			dbname: 'test',
+			dblogdir: ''
 		}
 	]
 

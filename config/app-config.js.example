@@ -11,7 +11,7 @@ module.exports = {
 
 
 	// Код доступа для оператора
-	secret: 'cNIUmJrqxfx706cKohtPAEuoOuOGnnuX0j7YPUm4L2Gj0C0taKCagU5KqcSF2DPv',
+	secret: '',
 
 
 	// Настройка внутренних модулей и API
@@ -26,9 +26,9 @@ module.exports = {
 	external_services: {
 
 		pbx: {
-			host: '192.168.3.111',
-			port: '5038',
-			span_id: '13',
+			host: '192.168.1.1',
+			port: '1111',
+			span_id: '1',
 			usr: 'admin',
 			pwd: 'password'
 		}
